@@ -28,7 +28,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Foreground="#FF111010" Margin="18,0,93,0" Grid.ColumnSpan="2" FontWeight="Bold" Content="Masa No: "/>
+                <Label Foreground="#FF111010" Margin="18,0,93,0" Grid.ColumnSpan="2" FontWeight="Bold" Content="Столик: "/>
                 <ComboBox x:Name="tableitem" ItemsSource="{Binding Tablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
                           HorizontalAlignment="Left" VerticalAlignment="Top" Width="203" Grid.Column="1" Margin="31,-1,0,0" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
                 <Label Foreground="#FF111010" Grid.Row="1" Grid.ColumnSpan="2" Margin="18,15,104,1" FontWeight="Bold" Content="Назва: " Grid.RowSpan="2"/>
@@ -41,7 +41,7 @@
                 <Button x:Name="button" Content="Видалити" Command="{Binding DeleteCommand}"
                         Visibility="{Binding CanModify, Converter={StaticResource VisibilityConverter}}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Width="105" Grid.Column="2" Margin="1,120,0,-104" Grid.Row="2" Height="25" Click="button_Click"/>
-                <Button x:Name="PlaceOrder" Content="Замовлення" Height="25" Width="105" VerticalAlignment="Top" Grid.Row="2" Margin="15,163,92,-147" Grid.ColumnSpan="2" Click="PlaceOrder_Click" />
+                <Button x:Name="PlaceOrder" Content="Зробити замовлення" Height="25" VerticalAlignment="Top" Grid.Row="2" Margin="23,163,48,-147" Grid.ColumnSpan="2" Click="PlaceOrder_Click" />
                 <Label x:Name="status" Content="{Binding Message,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"  Foreground="Green" Margin="45,202,68,-201" Grid.Row="2" HorizontalContentAlignment="Center"
                    FontSize="16" FontWeight="Bold" Grid.ColumnSpan="3"/>
             </Grid>

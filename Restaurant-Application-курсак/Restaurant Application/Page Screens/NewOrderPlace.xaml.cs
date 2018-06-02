@@ -74,17 +74,17 @@ namespace Restaurant_Application.Page_Screens
                     mycart.Clear();
                     fooditemsgrid.ItemsSource = mycart;
                     fooditemsgrid.Items.Refresh();
-                    status.Content = "Sipariş verildi.";
+                    status.Content = "Замовлено.";
                 }
                 else
                 {
-                    status.Content = "Birşeyler yanlış gitti.";
+                    status.Content = "Щось не так =)";
                 }
 
             }
             else
             {
-                status.Content = "Listeye herhangi bir ürün eklenmedi.";
+                status.Content = "Немає елементів доданих до списку."; //што ета вапшє
             }
 
         }
@@ -102,7 +102,7 @@ namespace Restaurant_Application.Page_Screens
             }
             fooditemsgrid.ItemsSource = mycart;
             fooditemsgrid.Items.Refresh();
-            status.Content = "Ürün listeden silindi.";
+            status.Content = "Вилучено зі списку продуктів.";
 
         }
     }

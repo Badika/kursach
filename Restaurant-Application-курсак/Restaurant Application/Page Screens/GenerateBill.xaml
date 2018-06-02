@@ -18,7 +18,7 @@
             <ComboBox x:Name="comboBox" 
                       ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
                       HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="83.789,10,0,0" Grid.Column="1"/>
-            <Button x:Name="button" Command="{Binding GenerateFoodBill}" Content="Обчислити" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="222.789,10,0,0" Grid.Column="1"/>
+            <Button x:Name="button" Command="{Binding GenerateFoodBill}" Content="Рахунок" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="222.789,10,0,0" Grid.Column="1"/>
             <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" 
                        ItemsSource="{Binding foodOrderItems}" SelectedItem="{Binding SelectedOrderItem}"
                       VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True"
@@ -33,7 +33,7 @@
             <Label x:Name="label_Copy" Foreground="Black" Content="Загальна ціна" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,230,0,-15" Width="103" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label_Copy1" Foreground="Orange" Content="{Binding GST}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,199,0,0" Width="45" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label_Copy2" Foreground="Orange" Content="{Binding TotalPrice}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="157,230,0,-15" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
-            <Label x:Name="label1" Content="Masa No: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Grid.Column="1" Margin="5,8,0,0"/>
+            <Label x:Name="label1" Content="Столик: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Grid.Column="1" Margin="5,8,0,0"/>
             <Label x:Name="label_Copy3" Foreground="Orange" Content="( %10 )" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="status" Content="{Binding Message}"  Foreground="Green" Margin="7,267,59,-78" HorizontalContentAlignment="Center"
                    FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>

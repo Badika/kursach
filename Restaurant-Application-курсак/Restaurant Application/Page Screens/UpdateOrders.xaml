@@ -21,7 +21,7 @@
                 <ComboBox x:Name="tablelistcombo"  
                   ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
                   HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="133,14,0,0"/>
-                <Label x:Name="label" Content="Seçilen Masa No" Margin="6,15,206,4"/>
+                <Label x:Name="label" Content="Оберіть столик" Margin="6,15,206,4"/>
                 <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Отримати список" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="264,15,-39,0"/>
 
             </Grid>
