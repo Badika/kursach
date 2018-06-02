@@ -154,12 +154,16 @@ namespace Restaurant_Application.ViewModel
             }
         }
 
-        public bool PlaceOrder(List<ViewOrderItems> Obj)
+        public ViewOrderItems PlaceOrder(ViewOrderItems Obj)
         {
             _dbLayerObj = new DataAccessLayer();
             return _dbLayerObj.PlaceOrder(Obj);
         }
-
+        public int InsertOrder(List<ViewOrderItems> Obj)
+        {
+            _dbLayerObj = new DataAccessLayer();
+            return _dbLayerObj.InsertOrder(Obj);
+        }
 
         public ICommand GetFoodListCommand
         {
