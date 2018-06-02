@@ -55,9 +55,9 @@ namespace Restaurant_Application.DB_Layer
         public void UpdateOrderDetails(ViewOrderItems fooditem)
         {
             var returnedOrder = _rDBContext.FoodOrders.First(x => x.OrderID == fooditem.OrderID);
+            var foodprice = returnedOrder.Price / returnedOrder.Quantity;
             returnedOrder.Quantity = fooditem.Quantity;
-            returnedOrder.FoodOrderID = fooditem.FoodOrderID;
-            returnedOrder.Price = fooditem.Price;
+            returnedOrder.Price = fooditem.Quantity * foodprice;
             var res = _rDBContext.SaveChanges();
         }
 

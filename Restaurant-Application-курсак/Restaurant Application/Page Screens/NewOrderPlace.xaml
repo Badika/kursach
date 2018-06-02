@@ -42,7 +42,7 @@
                         Visibility="{Binding CanModify, Converter={StaticResource VisibilityConverter}}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Width="105" Grid.Column="2" Margin="1,120,0,-104" Grid.Row="2" Height="25" Click="button_Click"/>
                 <Button x:Name="PlaceOrder" Content="Зробити замовлення" Height="25" VerticalAlignment="Top" Grid.Row="2" Margin="23,163,48,-147" Grid.ColumnSpan="2" Click="PlaceOrder_Click" />
-                <Label x:Name="status" Content="{Binding Message,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"  Foreground="Green" Margin="45,202,68,-201" Grid.Row="2" HorizontalContentAlignment="Center"
+                <Label x:Name="status" Content="{Binding Message,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"  Foreground="Green" Margin="45,202,45,-201" Grid.Row="2" HorizontalContentAlignment="Center"
                    FontSize="16" FontWeight="Bold" Grid.ColumnSpan="3"/>
             </Grid>
 

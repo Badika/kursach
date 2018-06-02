@@ -212,10 +212,8 @@ namespace Restaurant_Application.ViewModel
         {
             if (STableList != null)
             {
-
                 foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
-
-                GST = (foodOrderItems.Sum(p => p.Price) * 6) / 100;
+                GST = (foodOrderItems.Sum(p => p.Price) * 10) / 100;
                 TotalPrice = foodOrderItems.Sum(p => p.Price) + GST;
                 _dbLayerObj.UpdateTableStatus(STableList);
                 Message = STableList.TableName + " доступний."; //nolu masa müsait
