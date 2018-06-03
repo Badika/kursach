@@ -13,8 +13,6 @@ namespace Restaurant_Application.DB_Layer
 {
     public class DataAccessLayer
     {
-        public static String ConnectionString;
-        SqlConnection conn;
         private readonly RestaurantDB _rDBContext;
         enum Orderstatus { InProgress, OrderDelivered, Closed, Cancelled };
         enum bookingstatus { Booked, Reserved, Available };
@@ -36,18 +34,9 @@ namespace Restaurant_Application.DB_Layer
 
         public int InsertNewFoodItem(FoodItems newfoodItem)
         {
-            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
-            conn = new SqlConnection(ConnectionString);
-            conn.Open();
-            string query = "Insert into FoodItems (FoodName,Description,fPrice) values (@FoodName,@Description,@Price) select SCOPE_IDENTITY()";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@FoodName", newfoodItem.FoodName);
-            cmd.Parameters.AddWithValue("@Description", newfoodItem.Description);
-            cmd.Parameters.AddWithValue("@Price", newfoodItem.fPrice);
-
-            int foodid = Convert.ToInt32(cmd.ExecuteScalar());
-
-            return foodid;
+            var res = _rDBContext.FoodItems.Add(newfoodItem);
+            _rDBContext.SaveChanges();
+            return res.FoodID;
         }
 
         public void UpdateFoodDetails(FoodItems fooditem)
@@ -58,23 +47,18 @@ namespace Restaurant_Application.DB_Layer
             {
                 throw new NotImplementedException("Handle appropriately for your API design.");
             }
-            
+
             _rDBContext.Entry(fooditem).State = System.Data.Entity.EntityState.Modified;
             _rDBContext.SaveChanges();
         }
 
         public void UpdateOrderDetails(ViewOrderItems fooditem)
         {
-            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
-            conn = new SqlConnection(ConnectionString);
-            conn.Open();
-            string query = "Update FoodOrders set Quantity = @Quantity, Price = @Price where FoodOrderID = @FoodOrderID";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@FoodOrderID", fooditem.FoodOrderID);
-            cmd.Parameters.AddWithValue("@Quantity", fooditem.Quantity);
-            cmd.Parameters.AddWithValue("@Price", fooditem.Price);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            var returnedOrder = _rDBContext.FoodOrders.First(x => x.OrderID == fooditem.OrderID);
+            var foodprice = returnedOrder.Price / returnedOrder.Quantity;
+            returnedOrder.Quantity = fooditem.Quantity;
+            returnedOrder.Price = fooditem.Quantity * foodprice;
+            var res = _rDBContext.SaveChanges();
         }
 
         public void DeleteFoodDetails(FoodItems foodItem)
@@ -103,100 +87,57 @@ namespace Restaurant_Application.DB_Layer
             return _rDBContext.FoodOrders.ToList().Where(p => p.OrderID == order.OrderID).ToList();
         }
 
-        public int InsertOrder(Orders ordObj, FoodItems food)
+        public int InsertOrder(List<ViewOrderItems> obj)
         {
-            return 1;
+            foreach (var items in obj)
+            {
+                _rDBContext.FoodOrders.Add(new FoodOrders
+                {
+                    OrderID = items.OrderID,
+                    Price = items.Price,
+                    Quantity = items.Quantity,
+                    FoodID = items.FoodID,
+                });
+            }
+
+            return _rDBContext.SaveChanges();
         }
 
         public FoodItems getFoodDetails(int FoodID)
         {
-            return _rDBContext.FoodItems.Where(p => p.FoodID == FoodID).FirstOrDefault();
+            return _rDBContext.FoodItems.FirstOrDefault(p => p.FoodID == FoodID);
         }
 
-        public void DeleteOrderItem(ViewOrderItems obj)
+        public void DeleteOrderItem(ViewOrderItems order)
         {
-
+            _rDBContext.Orders.Remove(new Orders { OrderID = order.OrderID });
             _rDBContext.SaveChanges();
         }
 
-        public bool PlaceOrder(List<ViewOrderItems> obj)
+        public ViewOrderItems PlaceOrder(ViewOrderItems obj)
         {
-            int FoodOrderID = 0;
-            int totalprice = obj.Sum(p => p.Price);
-            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
-            conn = new SqlConnection(ConnectionString);
-            conn.Open();
-            string query = "Insert into Orders (CreatedDate,TotalPrice,OrderStatus,TableID) values (@CreatedDate,@TotalPrice,@OrderStatus,@TableID) select SCOPE_IDENTITY()";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
-            cmd.Parameters.AddWithValue("@TotalPrice", totalprice);
-            cmd.Parameters.AddWithValue("@OrderStatus", Orderstatus.InProgress.ToString());
-            cmd.Parameters.AddWithValue("@TableID", obj[0].TableID);
-            //cmd.ExecuteScalar();
-
-            int orderID = Convert.ToInt32(cmd.ExecuteScalar());
-
-            if (orderID > 0)
+            var createdOrder = _rDBContext.Orders.Add(new Orders
             {
-                foreach (var item in obj)
-                {
-                    string query1 = "Insert into FoodOrders (OrderID,FoodID,Quantity,Price) values (@OrderID,@FoodID,@Quantity,@Price) select SCOPE_IDENTITY()";
-                    SqlCommand cmd1 = new SqlCommand(query1, conn);
-                    cmd1.Parameters.AddWithValue("@OrderID", orderID);
-                    cmd1.Parameters.AddWithValue("@FoodID", item.FoodID);
-                    cmd1.Parameters.AddWithValue("@Quantity", item.Quantity);
-                    cmd1.Parameters.AddWithValue("@Price", item.Price);
-                    FoodOrderID = Convert.ToInt32(cmd1.ExecuteScalar());
-                }
+                TableID = obj.TableID,
+                CreatedDate = DateTime.UtcNow,
+                OrderStatus = Orderstatus.InProgress.ToString(),
+                TotalPrice = obj.Price
+            });
 
-            }
-
-            string updateTablestatus = "Update TableLists set BookingStatus = @BookingStatus where TableID = @TableID";
-            SqlCommand cmd2 = new SqlCommand(updateTablestatus, conn);
-            cmd2.Parameters.AddWithValue("@BookingStatus", bookingstatus.Booked.ToString());
-            cmd2.Parameters.AddWithValue("@TableID", obj[0].TableID);
-
-            cmd2.ExecuteNonQuery();
-            conn.Close();
-
-            if (FoodOrderID > 0)
-                return true;
-            else
-                return false;
+            var resultFromDb = _rDBContext.SaveChanges();
+            obj.OrderID = createdOrder.OrderID;
+            return obj;
         }
 
         public ObservableCollection<ViewOrderItems> getFoodOrderDetails(TableList selectedtable)
         {
-            DataTable dt = new DataTable();
             ObservableCollection<ViewOrderItems> orderItems = new ObservableCollection<ViewOrderItems>();
-            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
-            conn = new SqlConnection(ConnectionString);
-            conn.Open();
-            string query = @"select * from TableLists t inner join Orders o on t.TableID = o.TableID inner join FoodOrders fo on
-                            fo.OrderID = o.OrderID inner join FoodItems ft on ft.FoodID = fo.FoodID where t.BookingStatus = @BookingStatus and t.TableID = @TableID and o.OrderStatus = @OrderStatus";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@BookingStatus", bookingstatus.Booked.ToString());
-            cmd.Parameters.AddWithValue("@TableID", selectedtable.TableID);
-            cmd.Parameters.AddWithValue("@OrderStatus", Orderstatus.InProgress.ToString());
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dt);
 
-            for (int i = 0; dt.Rows.Count > i; i++)
+            var foodOrders = _rDBContext.FoodOrders.Where(x => x.Orders.TableID == selectedtable.TableID).ToList();
+
+            foreach (var item in foodOrders)
             {
-                ViewOrderItems orderItem = new ViewOrderItems();
-                orderItem.fPrice = Convert.ToInt32(dt.Rows[i]["fPrice"]);
-                orderItem.FoodOrderID = Convert.ToInt32(dt.Rows[i]["FoodOrderID"]);
-                orderItem.OrderID = Convert.ToInt32(dt.Rows[i]["OrderID"]);
-                orderItem.FoodID = Convert.ToInt32(dt.Rows[i]["FoodID"]);
-                orderItem.TableID = Convert.ToInt32(dt.Rows[i]["FoodID"]);
-                orderItem.FoodName = dt.Rows[i]["FoodName"].ToString();
-                orderItem.TableName = dt.Rows[i]["TableName"].ToString();
-                orderItem.OrderCreatedDate = Convert.ToDateTime(dt.Rows[i]["CreatedDate"]);
-                orderItem.OrderStatus = dt.Rows[i]["OrderStatus"].ToString();
-                orderItem.Quantity = Convert.ToInt32(dt.Rows[i]["Quantity"]);
-                orderItem.Price = Convert.ToInt32(dt.Rows[i]["Price"]);
-                orderItem.BookingStatus = dt.Rows[i]["BookingStatus"].ToString();
-                orderItems.Add(orderItem);
+                orderItems.Add(new ViewOrderItems { FoodID = item.FoodID, OrderID = item.OrderID, BookingStatus = item.Orders.OrderStatus, FoodName = item.fooditems.FoodName, OrderCreatedDate = item.Orders.CreatedDate, Price = item.Price, Quantity = item.Quantity, TableID = selectedtable.TableID, TableName = selectedtable.TableName });
             }
 
             return orderItems;
@@ -204,24 +145,9 @@ namespace Restaurant_Application.DB_Layer
 
         public void UpdateTableStatus(TableList t)
         {
-            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
-            conn = new SqlConnection(ConnectionString);
-            conn.Open();
-            string updateTablestatus = "Update TableLists set BookingStatus = @BookingStatus where TableID = @TableID";
-            SqlCommand cmd2 = new SqlCommand(updateTablestatus, conn);
-            cmd2.Parameters.AddWithValue("@BookingStatus", bookingstatus.Available.ToString());
-            cmd2.Parameters.AddWithValue("@TableID", t.TableID);
-
-            cmd2.ExecuteNonQuery();
-
-            string updateOrderStatus = "Update Orders set OrderStatus = @OrderStatus where TableID = @TableID";
-            SqlCommand cmd = new SqlCommand(updateOrderStatus, conn);
-            cmd.Parameters.AddWithValue("@OrderStatus", Orderstatus.Closed.ToString());
-            cmd.Parameters.AddWithValue("@TableID", t.TableID);
-
-            cmd.ExecuteNonQuery();
-
-            conn.Close();
+            var tableList = _rDBContext.TableList.First(x => x.TableID == t.TableID);
+            tableList.BookingStatus = t.BookingStatus;
+            _rDBContext.SaveChanges();
         }
     }
 }

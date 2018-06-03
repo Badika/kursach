@@ -36,9 +36,10 @@ namespace Restaurant_Application.Page_Screens
             mycart = new List<ViewOrderItems>();
         }
 
-        private void AddItem_Click(object sender, RoutedEventArgs e)
+        private void AddItem_Click(object sender, RoutedEventArgs e)//button add
         {
-            if (fooditem.SelectedValue != null || tableitem.SelectedValue != null || Quantitytxt.Text != null)
+            if (!string.IsNullOrEmpty(fooditem.SelectedValue.ToString()) ||
+                !string.IsNullOrEmpty(tableitem.SelectedValue.ToString()) || !string.IsNullOrEmpty(Quantitytxt.Text))
             {
                 _vOrderItems = new ViewOrderItems();
                 _oVM = new OrderingViewModel();
@@ -48,10 +49,14 @@ namespace Restaurant_Application.Page_Screens
                 _vOrderItems.FoodID = fooditemdata.FoodID;
                 _vOrderItems.FoodName = fooditemdata.FoodName;
                 _vOrderItems.TableID = Convert.ToInt32(tableitem.SelectedValue);
-                mycart.Add(_vOrderItems);
-                fooditemsgrid.ItemsSource = mycart;
-                fooditemsgrid.Items.Refresh();
-                status.Content = "Додано до списку страв";
+                var createdOrder = _oVM.PlaceOrder(_vOrderItems);
+                if (createdOrder != null)
+                {
+                    mycart.Add(_vOrderItems);
+                    fooditemsgrid.ItemsSource = mycart;
+                    fooditemsgrid.Items.Refresh();
+                    status.Content = "Додано до списку замовлених страв";
+                }
             }
             else
             {
@@ -62,19 +67,19 @@ namespace Restaurant_Application.Page_Screens
 
         }
 
-        private void PlaceOrder_Click(object sender, RoutedEventArgs e)
+        private void PlaceOrder_Click(object sender, RoutedEventArgs e)//proceed order with dish
         {
             if (fooditemsgrid.ItemsSource != null)
             {
                 _oVM = new OrderingViewModel();
-                bool confirm = _oVM.PlaceOrder(mycart);
-                if (confirm)
+                int confirm = _oVM.InsertOrder(mycart);
+                if (confirm != 0)
                 {
                     DataContext = new OrderingViewModel();
                     mycart.Clear();
                     fooditemsgrid.ItemsSource = mycart;
                     fooditemsgrid.Items.Refresh();
-                    status.Content = "Замовлено.";
+                    status.Content = "Замовленя відправлено на обробку.";
                 }
                 else
                 {

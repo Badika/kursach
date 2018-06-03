@@ -19,10 +19,10 @@
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Height="50" Margin="23,0,117,0" Width="368">
             <Grid Height="42" Width="364" Margin="46,0,-42,0">
                 <ComboBox x:Name="tablelistcombo"  
-                  ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
+                  ItemsSource="{Binding Tablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
                   HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="133,14,0,0"/>
                 <Label x:Name="label" Content="Оберіть столик" Margin="6,15,206,4"/>
-                <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Отримати список" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="264,15,-39,0"/>
+                <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Отримати список" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="264,15,0,0" Click="button_Click"/>
 
             </Grid>
         </StackPanel>

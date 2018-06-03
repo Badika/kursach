@@ -36,5 +36,10 @@ namespace Restaurant_Application.Page_Screens
             _oVM.getFoodOrderItems();
             MessageBox.Show(tablelistcombo.SelectedValue.ToString());
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

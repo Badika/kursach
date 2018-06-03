@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant_Application.Model
 {
-    public class sampleData : DropCreateDatabaseAlways<RestaurantDB>
+    public class sampleData : CreateDatabaseIfNotExists<RestaurantDB>
     {
         enum bookingstatus { Available, Reserved, Booked }
         protected override void Seed(RestaurantDB context)

@@ -154,12 +154,16 @@ namespace Restaurant_Application.ViewModel
             }
         }
 
-        public bool PlaceOrder(List<ViewOrderItems> Obj)
+        public ViewOrderItems PlaceOrder(ViewOrderItems Obj)
         {
             _dbLayerObj = new DataAccessLayer();
             return _dbLayerObj.PlaceOrder(Obj);
         }
-
+        public int InsertOrder(List<ViewOrderItems> Obj)
+        {
+            _dbLayerObj = new DataAccessLayer();
+            return _dbLayerObj.InsertOrder(Obj);
+        }
 
         public ICommand GetFoodListCommand
         {
@@ -208,10 +212,8 @@ namespace Restaurant_Application.ViewModel
         {
             if (STableList != null)
             {
-
                 foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
-
-                GST = (foodOrderItems.Sum(p => p.Price) * 6) / 100;
+                GST = (foodOrderItems.Sum(p => p.Price) * 10) / 100;
                 TotalPrice = foodOrderItems.Sum(p => p.Price) + GST;
                 _dbLayerObj.UpdateTableStatus(STableList);
                 Message = STableList.TableName + " доступний."; //nolu masa müsait

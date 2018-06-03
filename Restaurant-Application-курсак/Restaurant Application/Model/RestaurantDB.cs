@@ -11,7 +11,7 @@ namespace Restaurant_Application.Model
     {
         public RestaurantDB() : base("DBContext")
         {
-            Database.SetInitializer(new sampleData());
+            Database.SetInitializer<RestaurantDB>(new sampleData());
         }
         public DbSet<FoodItems> FoodItems { get; set; }
         public DbSet<TableList> TableList { get; set; }

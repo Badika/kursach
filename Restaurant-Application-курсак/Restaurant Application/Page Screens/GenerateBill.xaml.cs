@@ -26,5 +26,10 @@ namespace Restaurant_Application.Page_Screens
             InitializeComponent();
             DataContext = new OrderingViewModel();
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
