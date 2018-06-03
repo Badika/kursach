@@ -48,7 +48,7 @@
 
                 <Button Content="Додати" Name="AddItem" Visibility="{Binding CanNotModify, Converter={StaticResource Visibility Converter}}"
                         Margin="19,88,168,-90" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Click="AddItem_Click"/>
-                <Button Command="{Binding UpdateCommand}" Visibility="{Binding CanModify, Converter={StaticResource Visibility Converter}}"
+                <Button Command="{Binding UpdateCommand}" Visibility= "{Binding CanModify, Converter={StaticResource Visibility Converter}}" 
                         Content="Оновити" Name="UpdateItem" Margin="19,126,168,-128" Grid.Row="2" Grid.ColumnSpan="2"
                         Grid.Column="0" />
 

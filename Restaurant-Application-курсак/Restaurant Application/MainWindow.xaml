@@ -15,7 +15,7 @@
         <Border BorderBrush="DarkBlue" DockPanel.Dock="Left" BorderThickness="0.1">
             <StackPanel Background="#eac8b5" MinWidth="150">
                 <Label FontSize="24" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Background="#eac8b5"
-                       Foreground="#db6a68" FontWeight="Bold" FontStyle="Italic">Menu</Label>
+                       Foreground="#db6a68" FontWeight="Bold" FontStyle="Italic">Меню</Label>
 
                 <Button Name="AddItem" Command="{Binding GetFoodListCommand}" Content="Додати нову страву" Height="50" 
                         Click="AddItems_Click" Background="#d9a5b3" Foreground="#0e1620" FontSize="12" FontWeight="Bold"/>
@@ -30,7 +30,7 @@
         <Border BorderBrush="DarkBlue" BorderThickness="0.1" DockPanel.Dock="Top">
             <StackPanel Background="Turquoise">
                 <Label BorderBrush="Black" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"  FontStyle="Italic"
-                       Foreground="#f3f0e2" Background="#db6a68" Height="50">Easy order</Label>
+                       Foreground="#f3f0e2" Background="#db6a68" Height="50">Restaurant manager</Label>
             </StackPanel>
         </Border>
         <Grid RenderTransformOrigin="0.5,0.5">
