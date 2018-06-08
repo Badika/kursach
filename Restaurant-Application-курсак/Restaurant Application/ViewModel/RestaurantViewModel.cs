@@ -139,7 +139,7 @@ namespace Restaurant_Application.ViewModel
             if (SelectedFoodItem != null || SelectedFoodItem.Description == null)
             {
                 _dbLayerObj.UpdateFoodDetails(SelectedFoodItem);
-                Message = "Страву успішно оновлено"; //Ürün başarıyla güncellendi
+                Message = "Страву успішно оновлено";
                 GetCustomerList();
             }
         }
@@ -149,7 +149,7 @@ namespace Restaurant_Application.ViewModel
             if (SelectedFoodItem != null || SelectedFoodItem.Description == null)
             {
                 _dbLayerObj.DeleteFoodDetails(SelectedFoodItem);
-                Message = "Страву успішно видалено"; //Ürün başarıyla silindi
+                Message = "Страву успішно видалено"; 
                 GetCustomerList();
             }
         }

@@ -29,8 +29,8 @@
                     <DataGridTextColumn Binding="{Binding Price}" Width="*" Header="Ціна"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Label x:Name="label" Foreground="Black" Content="Тип" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48.789,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
-            <Label x:Name="label_Copy" Foreground="Black" Content="Загальна ціна" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,230,0,-15" Width="103" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label" Foreground="Black" Content="Чайові" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48.789,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label_Copy" Foreground="Black" Content="Загальна ціна" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,230,0,-15" Width="119" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label_Copy1" Foreground="Orange" Content="{Binding GST}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,199,0,0" Width="45" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label_Copy2" Foreground="Orange" Content="{Binding TotalPrice}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="157,230,0,-15" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label1" Content="Столик: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Grid.Column="1" Margin="5,8,0,0"/>

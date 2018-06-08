@@ -203,8 +203,7 @@ namespace Restaurant_Application.ViewModel
                 SelectedOrderItem.Price = SelectedOrderItem.Quantity * SelectedOrderItem.fPrice;
                 _dbLayerObj.UpdateOrderDetails(SelectedOrderItem);
                 getFoodOrderItems();
-                Message = "Оновлено."; //Sipariş ürünü güncellendi
-
+                Message = "Оновлено."; 
             }
         }
 
@@ -216,7 +215,7 @@ namespace Restaurant_Application.ViewModel
                 GST = (foodOrderItems.Sum(p => p.Price) * 10) / 100;
                 TotalPrice = foodOrderItems.Sum(p => p.Price) + GST;
                 _dbLayerObj.UpdateTableStatus(STableList);
-                Message = STableList.TableName + " доступний."; //nolu masa müsait
+                Message = STableList.TableName + " доступний."; 
             }
         }
     }

@@ -89,7 +89,7 @@ namespace Restaurant_Application.Page_Screens
             }
             else
             {
-                status.Content = "Немає елементів доданих до списку."; //што ета вапшє
+                status.Content = "Немає елементів доданих до списку."; 
             }
 
         }
